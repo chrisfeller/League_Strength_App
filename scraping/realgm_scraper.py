@@ -115,7 +115,7 @@ def scrape_targets(save=False):
     # If the function parameter of save is set to TRUE then save the resulting
     # dataframe to a .csv file in the `data/targets` directory
     if save:
-        df.to_csv('../data/targets/{0}.csv'.format('targets'), index=False)
+        df.to_csv('../data/targets/targets.csv', index=False)
     else:
         pass
     return df
