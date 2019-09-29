@@ -7,8 +7,9 @@ import numpy as np
 import pandas as pd
 import glob
 from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import Lasso, Ridge, ElasticNet
 
@@ -82,22 +83,40 @@ if __name__=='__main__':
     # Create feature matrix containing target and predictors
     # Filter MP and GP in training data
     feature_matrix = create_feature_matrix()
-    feature_matrix = feature_matrix[(feature_matrix['MIN']>=15) &
-                                    (feature_matrix['GP']>=10)]
+    feature_matrix = feature_matrix[(feature_matrix['MIN']>=0) &
+                                    (feature_matrix['GP']>=0)]
 
     # Perform train/test split
     y = feature_matrix.pop('WS')
     X = feature_matrix[['GP', 'MIN', 'FGM', 'FGA', 'FG%', '3PM', '3PA',
                         '3P%', 'FTM', 'FTA', 'FT%', 'TOV', 'PF', 'ORB',
-                        'DRB', 'REB', 'AST', 'STL', 'BLK', 'PTS']]
-    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=10)
+                        'DRB', 'REB', 'AST', 'STL', 'BLK', 'PTS', 'LEAGUE']]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
     # Build Pipeline to pass to gridsearch for modeling.
     # This includes a data scaling step as well as the ridge regression model.
-    pipeline = Pipeline([
-    ('std_scaler', StandardScaler()),
-    ('ridge_model', Ridge())
+    numeric_features = ['GP', 'MIN', 'FGM', 'FGA', 'FG%', '3PM', '3PA',
+                        '3P%', 'FTM', 'FTA', 'FT%', 'TOV', 'PF', 'ORB',
+                        'DRB', 'REB', 'AST', 'STL', 'BLK', 'PTS',]
+    num_pipeline = Pipeline([
+        ('scaler', StandardScaler()),
     ])
+
+    # Build Pipeline for categorical features
+    categorical_features = ['LEAGUE']
+    cat_pipeline = Pipeline([
+        ('cat_encoder', OneHotEncoder(handle_unknown='ignore'))
+    ])
+
+    preprocessor = ColumnTransformer(transformers=[
+        ('num', num_pipeline, numeric_features),
+        ('cat', cat_pipeline, categorical_features)])
+
+    pipeline = Pipeline([
+        ('preprocessor', preprocessor),
+        ('ridge_model', Ridge())
+    ])
+
 
     # Define parameter list to gridsearch over
     ridge_param_list = {'ridge_model__alpha': np.linspace(.1, 1, 10),
@@ -119,18 +138,15 @@ if __name__=='__main__':
     # current NBA and international players after filtering to a certain
     # MP and GP threshold.
     combined_data = pd.read_csv('../data/combined_data/combined_data.csv')
-    combined_data = combined_data[(combined_data['MIN']>=15) &
-                                  (combined_data['GP']>=10)]
-    combined_data = combined_data[['GP', 'MIN', 'FGM', 'FGA', 'FG%', '3PM', '3PA',
+    # Filter MP, GP, and Leagues
+    combined_data = combined_data[(combined_data['MIN']>=0) &
+                                  (combined_data['GP']>=0) &
+                                  (combined_data['LEAGUE'].isin(feature_matrix['LEAGUE'].unique()))]
+    holdout_data = combined_data[['GP', 'MIN', 'FGM', 'FGA', 'FG%', '3PM', '3PA',
                         '3P%', 'FTM', 'FTA', 'FT%', 'TOV', 'PF', 'ORB',
-                        'DRB', 'REB', 'AST', 'STL', 'BLK', 'PTS']]
-    all_predictions = grid.predict(combined_data)
+                        'DRB', 'REB', 'AST', 'STL', 'BLK', 'PTS', 'LEAGUE']]
+    all_predictions = grid.predict(holdout_data)
     combined_data['PREDICTION'] = all_predictions
     combined_data = combined_data[['Player', 'SEASON', 'LEAGUE', 'PREDICTION']]
     combined_data.to_csv('../data/predictions/predictions.csv', index=False)
-
-    # Aggregate predictions to the league level to compare median prediciton
-    # as a quick sanity check on league strength ranking.
-    ranking = (combined_data.groupby('LEAGUE')
-                            .median()['PREDICTION']
-                            .sort_values(ascending=False))
+    combined_data.to_csv('../prediction_app/data/predictions.csv', index=False)

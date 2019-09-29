@@ -24,19 +24,24 @@
 
 #### Process
 1. Scraped RealGM
-- Per 48
-- Pace Adjusted
+- Per 48 Minute Pace-Adjusted data
 - All Players (No Qualification)
-- 2009-2010 through 2018-2019 seasons
+- 2009-2010 through 2018-2019 seasons (last 10 seasons)
 - All leagues listed on RealGM (won't align with Layne's list perfectly but close enough for POC)
-- Feature matrix contains [130,304 rows x 25 columns]
+    - XX leagues in total
+- Feature matrix contains [X rows x X columns]
+
+### Modeling
+- To simplify the problem for POC only used leagues that have ever sent players to the NBA.
+- Leagues that have never sent a player to the NBA are a cold-start problem I'd like to figure out in V2
+- Didn't use any minutes or GP restriction in training or test set as league median projection should be mostly robust to outliers
 
 #### To-Do
-1. Lag feature matrix with targets
-2. Some sort of model
-3. Figure out weights of league strength
-4. Shiny App
-5. Documentation
+1. Shiny App
+2. Try additional models
+    - Lasso, Elastic Net, RF, GB, XGBoost, Mixed Effects, Hierarchical
+3. Filter training and prediction records based on MP and GP
+4. Documentation
 
 ### Next Steps
 1. Use more than Per-48 Pace Adjusted data to model
