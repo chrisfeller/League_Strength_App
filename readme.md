@@ -1,7 +1,7 @@
 # League Strength
 
 ### Motivation
-To effectively evaluate international prospects it is first useful to understand the relative strength of the leagues in which they participate. In an attempt to quantify the strength of each league throughout the world, I predicted the NBA performance of each international player over the last ten seasons. These predictions provide a distribution of the expected performance of a league had all of its player advanced to the NBA. By comparing the median prediction of each league's distribution, we gain a better understanding of which leagues are stronger than others.
+To effectively evaluate international prospects it is first useful to understand the relative strength of the leagues in which they participate. In an attempt to quantify the strength of each league throughout the world, I predicted the NBA performance of each international player over the last ten seasons. These predictions provide a distribution of the expected performance of a league had all of its players advanced to the NBA. By comparing the median prediction of each league's distribution, we gain a better understanding of which leagues are stronger than others.
 
 The resulting league strength ranking provides a rank-ordered list of leagues, in addition to the magnitude of strength difference between respective leagues.
 
@@ -18,12 +18,12 @@ As a quick example, the following plot visualizes the difference in predicted NB
 <br>
 <br>
 
-A second example below, compares the NBA to the NBA Playoffs. While the two are quite similar, we do see that the center of the NBA Playoff (red) distribution is just to the right of the NBA distribution (blue) suggesting that on average the NBA Playoffs are stronger than the regular season.
+A second example below, compares the NBA to the NBA Playoffs. While the two are quite similar, we do see that the center of the NBA Playoff (Red) distribution is just to the right of the NBA regular season distribution (Blue) suggesting that on average the NBA Playoffs are stronger than the regular season.
 
 ![NBA vs. NBA Playoffs](output/plots/NBA_vs_Playoffs.png)
 
 <br>
-The following table shows the full rank-ordered strength of each league in the data. Up to now we've show that the NBA is stronger than the CBA and the playoffs are stronger than the regular season. We're now able to see the magnitude of those differences. By looking at the `PREDICTION` column in the following table, we see that both the NBA and NBA Playoffs are significantly stronger leagues than the third-strongest, Euroleague. While the top of this table aligns with analyses done by others (see references), this ranking has the Adriatic and VTB United Leagues ranked slightly lower. Alternatively, the Mexican league shows up much higher in the ranking than was expected.
+The following table shows the full rank-ordered strength of each league in the data. Up to now we've shown that the NBA is stronger than the CBA and the playoffs are stronger than the regular season. We're now able to see the magnitude of those differences. By looking at the prediction column in the following table, we see that both the NBA and NBA Playoffs are significantly stronger leagues than the third-strongest, Euroleague. While the top of this table aligns with analyses done by others (see references), this ranking has the Adriatic and VTB United leagues ranked slightly lower. Alternatively, the Mexican league shows up much higher in the rankings than was expected.
 
 <br>
 <br>
@@ -61,9 +61,9 @@ Data for the project was scraped from [RealGM](https://basketball.realgm.com/int
     - Performed a 75/25 train/test split during the model-training step. The model recorded a RMSE of 2.52 when predicting on the test set. As a reference point the range of WS in the training data was -2.2 to 19.1.
     - The python file containing model training code can be found in the `/modeling` directory.
 5. Deploying the trained model from the step above, predicted the season+1 NBA performance for all NBA and international players.
-    - This provides a distribution of predicted performance for each league had their players all made it to the NBA.
+    - This provides a distribution of predicted performance for each league had its players all advanced to the NBA.
     - One of the problems I struggled to solve was how to handle players with low minutes or games played. Making predictions for players who played very little and have outlier statistics will ultimately lead to outlier predictions. As a solution, I ended up evaluating league strength by the median predicted WS for the league. This avoids the influence of most outlier predictions and thus allowed me to complete the model training and predictions without having to filter the input data set.
-    - As a initial proof-of-concept and for the sake of time, I only made predictions for the 37 leagues that have had a player advance to the  NBA over the last 10 seasons.
+    - As an initial proof-of-concept and for the sake of time, I only made predictions for the 37 leagues that have had a player advance to the  NBA over the last 10 seasons.
 6. Calculated the median predicted NBA performance (WS) for each league, which serves as a proxy for league strength.
     - The python file for the league strength calculation can be found in the `/output` directory.
 7. Built R Shiny App to display output and allow users to interactively compare leagues
