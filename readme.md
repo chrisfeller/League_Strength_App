@@ -28,7 +28,7 @@ The following table shows the full rank-ordered strength of each league in the d
 <br>
 <br>
 
-As a proof-of-concept, this project directionally aligns with the findings of similar analyses and with a few improvements mentioned in the next-steps section at the bottom of the page, I expect those few leagues ranked slightly higher or lower to be adjusted.
+As a proof-of-concept, this project directionally aligns with the findings of similar analyses and with a few improvements mentioned in the next-steps section at the bottom of the page, I expect those few leagues to be adjusted accordingly.
 
 ![Full Rankings](output/plots/ranking.png)
 
