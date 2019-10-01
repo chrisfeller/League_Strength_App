@@ -8,11 +8,12 @@ library(shinythemes)
 library(shinydashboard)
 
 # Set Working Directory
-setwd('/Users/chrisfeller/Desktop/League_Strength/prediction_app/')
+# setwd('/Users/chrisfeller/Desktop/League_Strength/prediction_app/')
 
 # Read in predictions
 prediction_df <- read.csv('data/predictions.csv', check.names=FALSE) %>%
                           mutate(LEAGUE = str_replace(LEAGUE, '_', ' '))
+# Calculate League Rankings
 ranking_df <- prediction_df %>%
                 group_by(LEAGUE) %>%
                 summarise(MEDIAN_PREDICTION=round(median(PREDICTION), 3)) %>%
@@ -20,6 +21,7 @@ ranking_df <- prediction_df %>%
                 rename('MEDIAN PREDICTION' = MEDIAN_PREDICTION)
 
 
+# Create dashboard user interface
 ui <- dashboardPage(skin = 'blue', 
     dashboardHeader(title = 'League Strength', titleWidth = 1700),
     
@@ -41,7 +43,7 @@ ui <- dashboardPage(skin = 'blue',
         NBA performance, in terms of Win Shares (WS), of all players within a respective league."),
       br(),
       p("The plot displays the distribution of predicted NBA performance for each 
-        player in the previously selected leagues (blue and red distributions). The median prediction for 
+        player in the two leagues selected above (blue and red distributions). The median prediction for 
         all players globally is represented by the dashed line."),
       br(),
       p('The default example, illustrates the strength of the NBA (blue) being greater than 
@@ -70,6 +72,7 @@ ui <- dashboardPage(skin = 'blue',
     )
   )
     
+# Create dashboard server
 server <- function(input, output){
   output$table <- DT::renderDataTable(
     ranking_df, 
@@ -93,4 +96,5 @@ server <- function(input, output){
       }, height = 600, width = 1050)
 }
   
+# Run app
 shinyApp(ui = ui, server = server)

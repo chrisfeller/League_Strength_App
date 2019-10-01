@@ -1,0 +1,10 @@
+name: prediction_app
+title:
+username:
+account: chrisfeller
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1266807
+bundleId: 2457406
+url: https://chrisfeller.shinyapps.io/prediction_app/
+when: 1569893295.30953

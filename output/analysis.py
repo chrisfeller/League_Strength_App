@@ -75,7 +75,4 @@ if __name__=='__main__':
 
     # Aggregate predictions to the league level to compare median prediciton
     # as a quick sanity check on league strength ranking.
-    # ranking_table(predictions_df)
-    # ranking = (predictions_df.groupby('LEAGUE')
-    #                         .median()['PREDICTION']
-    #                         .sort_values(ascending=False))
+    ranking_table(predictions_df)

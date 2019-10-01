@@ -148,5 +148,6 @@ if __name__=='__main__':
     all_predictions = grid.predict(holdout_data)
     combined_data['PREDICTION'] = all_predictions
     combined_data = combined_data[['Player', 'SEASON', 'LEAGUE', 'PREDICTION']]
+    # Write out predicitons to output and app directories
     combined_data.to_csv('../data/predictions/predictions.csv', index=False)
     combined_data.to_csv('../prediction_app/data/predictions.csv', index=False)
