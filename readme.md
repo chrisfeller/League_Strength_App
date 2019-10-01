@@ -1,7 +1,7 @@
 # League Strength
 
 ### Motivation
-To effectively evaluate international prospects it is first useful to understand the relative strength of the leagues in which they participate. In an attempt to quantify the strength of each league throughout the world, I predicted the NBA performance of each international player over the last ten seasons. These predictions provide a distribution of the expected performance of a league had all of its players advanced to the NBA. By comparing the median prediction of each league's distribution, we gain a better understanding of which leagues are stronger than others.
+To effectively evaluate international prospects, understanding the relative strength of the leagues in which they participate is of high importance. To quantify the strength of each league throughout the world, I predicted the NBA performance of each international player over the last ten seasons. These predictions provide a distribution of each league's expected performance had all of its players advanced to the NBA. By comparing the median prediction of each league's distribution, we gain a better understanding of one leagues' strength over another.
 
 The resulting league strength ranking provides a rank-ordered list of leagues, in addition to the magnitude of strength difference between respective leagues.
 
@@ -18,7 +18,7 @@ As a quick example, the following plot visualizes the difference in predicted NB
 <br>
 <br>
 
-A second example below, compares the NBA to the NBA Playoffs. While the two are quite similar, we do see that the center of the NBA Playoff (Red) distribution is just to the right of the NBA regular season distribution (Blue) suggesting that on average the NBA Playoffs are stronger than the regular season.
+A second example below, compares the NBA regular season to the NBA Playoffs. While the two are quite similar, we do see that the center of the NBA Playoff (Red) distribution is just to the right of the NBA regular season distribution (Blue) suggesting that on average the NBA Playoffs are stronger than the regular season.
 
 ![NBA vs. NBA Playoffs](output/plots/NBA_vs_Playoffs.png)
 
